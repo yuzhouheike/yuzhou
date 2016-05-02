@@ -34,8 +34,8 @@
     _GoodsIntro.text = leftModel.GoodsIntro;
     _GoodsIntro.numberOfLines = 0;
     _ForeignPrice.text = [NSString stringWithFormat:@"原价:%@", leftModel.ForeignPrice];
-    _ForeignPrice.font = [UIFont systemFontOfSize:13];
-    _Price.font = [UIFont systemFontOfSize:15];
+    _ForeignPrice.font = [UIFont systemFontOfSize:12];
+    _Price.font = [UIFont systemFontOfSize:13];
     _Price.text = [NSString stringWithFormat:@"现价:%@", leftModel.Price];
 
     

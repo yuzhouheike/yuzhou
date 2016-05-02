@@ -103,11 +103,19 @@ static NSString *rightCellID = @"rightCellID";
     self.tableView.tableHeaderView = self.headImage;
 
     [self getData];
+    
+    
+//    [self twoButtonMethod:self.twoButtonView.leftButton];
 }
 
 #pragma mark － tableView 的dataSource方法
 
 
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return YES;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -165,6 +173,7 @@ static NSString *rightCellID = @"rightCellID";
 
         LYLeftCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leftcellID"];
         cell.leftModel = self.leftArray[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
         
     } else {
@@ -174,6 +183,8 @@ static NSString *rightCellID = @"rightCellID";
         LYRightModel *model = self.rightArray[indexPath.row];
         
         cell.rightModel = model;
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
     }
@@ -213,10 +224,12 @@ static NSString *rightCellID = @"rightCellID";
 
     [ manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appHomeGoodsList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"%@", responseObject);
+//        NSLog(@"%@", responseObject);
         
         self.leftArray = [LYleftModel mj_objectArrayWithKeyValuesArray:responseObject];
         NSLog(@"%@", self.leftArray);
+        
+        [self.tableView reloadData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@", error);
@@ -238,6 +251,14 @@ static NSString *rightCellID = @"rightCellID";
         
 //        NSLog(@"%@", error);
     }];
+}
+
+#pragma mark - 每一行cell选中后的方法
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"%@", @(indexPath.row));
+    
 }
 
 @end
