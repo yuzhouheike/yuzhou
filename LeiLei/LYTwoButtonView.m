@@ -18,7 +18,7 @@
     
     
     if (self = [super initWithFrame:frame ]) {
-        
+        self.backgroundColor = [UIColor colorWithWhite:0.87 alpha:1.0];
         [self addSubview:self.leftButton];
         [self addSubview:self.rightButton];
     }

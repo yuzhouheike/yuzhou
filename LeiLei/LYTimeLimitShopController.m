@@ -12,6 +12,8 @@
 #import "CycleModel.h"
 #import "MJExtension.h"
 #import "LYTwoButtonView.h"
+#import "LYRightModel.h"
+#import "LYRightCell.h"
 //#import "LYLeftCell.h"
 //#import "LYleftModel.h"
 
@@ -64,19 +66,21 @@ static NSString *rightCellID = @"rightCellID";
     if(!_tableView)
     {
         _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        /**
-         LYScrollView *scrollView = [[LYScrollView alloc]init];
-         _tableView.tableHeaderView = scrollView;
 
-         */
         /**
          *  加载tableView
          */
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellID];
-//        [_tableView registerClass: forCellReuseIdentifier:<#(nonnull NSString *)#>]
-        
+        /**
+         *  注册左边的cell
+         */
         [_tableView registerNib:[UINib nibWithNibName:@"LYLeftCell" bundle:nil] forCellReuseIdentifier:leftCellID];
-//        _tableView 
+        /**
+         *  注册右边的cell
+         */
+        
+        [_tableView registerNib:[UINib nibWithNibName:@"LYRightCell" bundle:nil] forCellReuseIdentifier:rightCellID];
+        
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.tableHeaderView = self.headImage;
@@ -92,44 +96,37 @@ static NSString *rightCellID = @"rightCellID";
     self.navigationItem.rightBarButtonItem.image=[UIImage imageNamed:@"限时特卖界面搜索按钮"];
     
     [self.tableView setSectionHeaderHeight:50];
-    
+    //添加轮播图为tableView 的头
     self.tableView.tableHeaderView = self.headImage;
-//    [self.view addSubview:self.headImage];
+
     [self getData];
 }
 
-#pragma uitableViewDataSource
+#pragma mark － tableView 的dataSource方法
 
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
 
-    return 30;
+    if (isLeftButton) {
+        return self.leftArray.count;
+    }
+    return self.rightArray.count;
     
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    
-//    UIView *view = [[UIView alloc] init];
-//    
-//    view.backgroundColor = [UIColor redColor];
-//    
-//    view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 100);
-//    
-//    
-//    return view;
     
     return self.twoButtonView;
     
 }
+#pragma mark - 两个按钮的方法
 
 - (void)twoButtonMethod:(UIButton *)button {
     
     NSLog(@"%@", button.titleLabel.text);
-    
-//    self.twoButtonView.leftButton.selected = !self.twoButtonView.leftButton.selected;
-//    self.twoButtonView.rightButton.selected = !self.twoButtonView.rightButton.selected;
+
     
     if (button == self.twoButtonView.leftButton) {
         
@@ -144,35 +141,46 @@ static NSString *rightCellID = @"rightCellID";
     [self.tableView reloadData];
 }
 
+
+#pragma mark tableView 的行高
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (isLeftButton) {
-        return 100;
+        return 200;
     }
-    return 9;
+    return 175;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     /**
-     *  限时特卖轮播图 数据
+     *  cell 的数据
      */
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
     
-//    if (self.twoButtonView.leftButton.selected) {
-//        
-//        LYLeftCell *cell = [tableView dequeueReusableCellWithIdentifier:leftCellID];
-//        return cell;
-//    } else {
-//       
-//        return cell;
-//    }
+    if (isLeftButton) {
+        
+        return cell;
+        
+    } else {
+       
+        LYRightCell *cell = [tableView dequeueReusableCellWithIdentifier:rightCellID];
+        
+        LYRightModel *model = self.rightArray[indexPath.row];
+        
+        cell.rightModel = model;
+        
+        return cell;
+    }
     
     
     return cell;
 }
+
+#pragma mark - 从网络获取数据
 
 - (void)getData {
     
@@ -183,20 +191,20 @@ static NSString *rightCellID = @"rightCellID";
     
     [manger GET:@"http://123.57.141.249:8080/beautalk/appHome/appHome.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"%@ haha", responseObject);
+//        NSLog(@"%@ haha", responseObject);
         
-//        NSArray *cycelModelArray = [CycleModel mj_objectArrayWithKeyValuesArray:responseObject];
-//        
+        NSArray *cycelModelArray = [CycleModel mj_objectArrayWithKeyValuesArray:responseObject];
+        
 //        NSLog(@"%@", cycelModelArray);
-//        
-//        NSMutableArray *mutableModelarray = [NSMutableArray array];
-//        
-//        for (CycleModel *model  in cycelModelArray) {
-//            
-//            [mutableModelarray addObject:model.ImgView];
-//        }
-//        
-//        self.headImage.dataList = [NSArray arrayWithArray:mutableModelarray];
+        
+        NSMutableArray *mutableModelarray = [NSMutableArray array];
+        
+        for (CycleModel *model  in cycelModelArray) {
+            
+            [mutableModelarray addObject:model.ImgView];
+        }
+        
+        self.headImage.dataList = [NSArray arrayWithArray:mutableModelarray];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"%@ error", error);
@@ -226,9 +234,18 @@ static NSString *rightCellID = @"rightCellID";
 //        NSLog(@"%@", error);
 //    }];
     
-    [manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appHomeGoodsList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    /**
+     *首页右边的图
+     */
+    
+    [manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appActivityList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"%@", responseObject);
+        
+        self.rightArray = [LYRightModel mj_objectArrayWithKeyValuesArray:responseObject];
+        
+        
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         NSLog(@"%@", error);
