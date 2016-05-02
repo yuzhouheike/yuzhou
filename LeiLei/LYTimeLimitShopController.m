@@ -14,8 +14,8 @@
 #import "LYTwoButtonView.h"
 #import "LYRightModel.h"
 #import "LYRightCell.h"
-//#import "LYLeftCell.h"
-//#import "LYleftModel.h"
+#import "LYLeftCell.h"
+#import "LYleftModel.h"
 
 static NSString *cellID = @"cellID";
 static NSString *leftCellID = @"leftCellID";
@@ -74,12 +74,15 @@ static NSString *rightCellID = @"rightCellID";
         /**
          *  注册左边的cell
          */
-        [_tableView registerNib:[UINib nibWithNibName:@"LYLeftCell" bundle:nil] forCellReuseIdentifier:leftCellID];
+//        [_tableView registerNib:[UINib nibWithNibName:@"LYLeftCell" bundle:nil] forCellReuseIdentifier:leftCellID];
+//        [_tableView registerNib:[UINib nibWithNibName:@"LYLeftCell" bundle:nil] forCellReuseIdentifier:@"leftcellID"];
         /**
          *  注册右边的cell
          */
         
         [_tableView registerNib:[UINib nibWithNibName:@"LYRightCell" bundle:nil] forCellReuseIdentifier:rightCellID];
+        
+        [_tableView registerNib:[UINib nibWithNibName:@"LYLeftCell" bundle:nil] forCellReuseIdentifier:@"leftcellID"];
         
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -157,12 +160,11 @@ static NSString *rightCellID = @"rightCellID";
     /**
      *  cell 的数据
      */
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
-    
+ 
     if (isLeftButton) {
-        
+
+        LYLeftCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leftcellID"];
+        cell.leftModel = self.leftArray[indexPath.row];
         return cell;
         
     } else {
@@ -176,8 +178,7 @@ static NSString *rightCellID = @"rightCellID";
         return cell;
     }
     
-    
-    return cell;
+  
 }
 
 #pragma mark - 从网络获取数据
@@ -191,11 +192,7 @@ static NSString *rightCellID = @"rightCellID";
     
     [manger GET:@"http://123.57.141.249:8080/beautalk/appHome/appHome.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-//        NSLog(@"%@ haha", responseObject);
-        
         NSArray *cycelModelArray = [CycleModel mj_objectArrayWithKeyValuesArray:responseObject];
-        
-//        NSLog(@"%@", cycelModelArray);
         
         NSMutableArray *mutableModelarray = [NSMutableArray array];
         
@@ -214,25 +211,16 @@ static NSString *rightCellID = @"rightCellID";
      * 首页单品团购
      */
 
-//    [ manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appHomeGoodsList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-//        NSLog(@"%@", responseObject);
-//        
-//        NSArray *leftModelArray = [LYleftModel mj_objectArrayWithKeyValuesArray:responseObject];
-//        
-//        NSMutableArray *mutableLeftModelArray = [NSMutableArray array];
-//        
-//        
-//        for (LYleftModel *model in leftModelArray) {
-//            
-//            [mutableLeftModelArray addObject:model];
-//        }
-//        
-//        [self.leftArray arrayByAddingObjectsFromArray:mutableLeftModelArray];
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@", error);
-//    }];
+    [ manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appHomeGoodsList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"%@", responseObject);
+        
+        self.leftArray = [LYleftModel mj_objectArrayWithKeyValuesArray:responseObject];
+        NSLog(@"%@", self.leftArray);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
     
     /**
      *首页右边的图
@@ -240,7 +228,7 @@ static NSString *rightCellID = @"rightCellID";
     
     [manger GET:@"http://123.57.141.249:8080/beautalk/appActivity/appActivityList.do" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"%@", responseObject);
+//        NSLog(@"%@", responseObject);
         
         self.rightArray = [LYRightModel mj_objectArrayWithKeyValuesArray:responseObject];
         
@@ -248,7 +236,7 @@ static NSString *rightCellID = @"rightCellID";
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"%@", error);
+//        NSLog(@"%@", error);
     }];
 }
 

@@ -30,6 +30,8 @@
 		6E9B70A71CD6F29100207B74 /* LYRightModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9B70A61CD6F29100207B74 /* LYRightModel.m */; };
 		6E9B70AE1CD6F4CB00207B74 /* LYRightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9B70AC1CD6F4CB00207B74 /* LYRightCell.m */; };
 		6E9B70AF1CD6F4CB00207B74 /* LYRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E9B70AD1CD6F4CB00207B74 /* LYRightCell.xib */; };
+		6E9B70B31CD7005A00207B74 /* LYLeftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E9B70B11CD7005A00207B74 /* LYLeftCell.m */; };
+		6E9B70B41CD7005A00207B74 /* LYLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6E9B70B21CD7005A00207B74 /* LYLeftCell.xib */; };
 		6EA0E9421CD39CA300EC1A21 /* LYLogInController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA0E9411CD39CA300EC1A21 /* LYLogInController.m */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +77,9 @@
 		6E9B70AB1CD6F4CB00207B74 /* LYRightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYRightCell.h; sourceTree = "<group>"; };
 		6E9B70AC1CD6F4CB00207B74 /* LYRightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYRightCell.m; sourceTree = "<group>"; };
 		6E9B70AD1CD6F4CB00207B74 /* LYRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LYRightCell.xib; sourceTree = "<group>"; };
+		6E9B70B01CD7005A00207B74 /* LYLeftCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYLeftCell.h; sourceTree = "<group>"; };
+		6E9B70B11CD7005A00207B74 /* LYLeftCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYLeftCell.m; sourceTree = "<group>"; };
+		6E9B70B21CD7005A00207B74 /* LYLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LYLeftCell.xib; sourceTree = "<group>"; };
 		6EA0E9401CD39CA300EC1A21 /* LYLogInController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LYLogInController.h; sourceTree = "<group>"; };
 		6EA0E9411CD39CA300EC1A21 /* LYLogInController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LYLogInController.m; sourceTree = "<group>"; };
 		6EDE42D31CD4FC8000664F38 /* ly.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ly.pch; sourceTree = "<group>"; };
@@ -129,6 +134,9 @@
 				6E9B70AB1CD6F4CB00207B74 /* LYRightCell.h */,
 				6E9B70AC1CD6F4CB00207B74 /* LYRightCell.m */,
 				6E9B70AD1CD6F4CB00207B74 /* LYRightCell.xib */,
+				6E9B70B01CD7005A00207B74 /* LYLeftCell.h */,
+				6E9B70B11CD7005A00207B74 /* LYLeftCell.m */,
+				6E9B70B21CD7005A00207B74 /* LYLeftCell.xib */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -404,6 +412,7 @@
 				6E90AE5B1CD21FD40018A8E1 /* my.plist in Resources */,
 				6E90AE411CD1FE610018A8E1 /* LaunchScreen.storyboard in Resources */,
 				6E90AE3E1CD1FE610018A8E1 /* Assets.xcassets in Resources */,
+				6E9B70B41CD7005A00207B74 /* LYLeftCell.xib in Resources */,
 				6E9B70AF1CD6F4CB00207B74 /* LYRightCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -482,6 +491,7 @@
 				6E1C13EC1CD604220000FC06 /* LYTwoButtonView.m in Sources */,
 				6E90AE531CD20C2B0018A8E1 /* LYShoppingCarController.m in Sources */,
 				6E1C13D91CD601790000FC06 /* LYTimeLimitShopController.m in Sources */,
+				6E9B70B31CD7005A00207B74 /* LYLeftCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
